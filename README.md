@@ -1,6 +1,6 @@
 # Repository: Plotters
 Some easy-to-use plotters based on [JZY3D](https://github.com/jzy3d). Requires [Maven](https://howtodoinjava.com/maven/how-to-install-maven-on-windows/) to run. 
-<br/>By using my specialized plotters, you don't need to set up the environment for JZY3D. You can just create a Plotter, add your components, and invoke the <i>plot()</i> function.
+<br/><br/>By using my specialized plotters, you don't need to set up the environment for JZY3D. You can just create a Plotter, add your components, and invoke the <i>plot()</i> function.
 
 # Contents:
 1, <b>[Surface Plotter](https://github.com/zhaokw/Plotters/blob/master/src/SurfacePlotter.java)</b><br/>To plot a parametrized surface
