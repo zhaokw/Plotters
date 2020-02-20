@@ -39,4 +39,4 @@ scp.addPoints(points2);
 scp.plot();
 ```
 <br/>
-![DemoPlot](https://github.com/zhaokw/Plotters/blob/master/img/Result.png)
+<img class="centered" src="https://github.com/zhaokw/Plotters/blob/master/img/Result.png"/>
