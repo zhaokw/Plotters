@@ -2,8 +2,8 @@
 Some easy-to-use plotters based on [JZY3D](https://github.com/jzy3d). Requires [Maven](https://howtodoinjava.com/maven/how-to-install-maven-on-windows/) to run.
 
 # Contents:
-1, <b>Surface Plotter</b>To plot a parametrized surface<br/>
-2, <b>Scatter Plotter</b>To plot a 3D scatterplot<br/>
+1, <b>Surface Plotter</b><br/>To plot a parametrized surface<br/>
+2, <b>Scatter Plotter</b><br/>To plot a 3D scatterplot<br/>
 <br/><br/>
 # A Demo:
 This demo produces a surface plot with two parameterized surfaces and a scatterplot with two distinctly colored clusters.
