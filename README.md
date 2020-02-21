@@ -1,5 +1,6 @@
 # Repository: Plotters
-Some easy-to-use plotters based on [JZY3D](https://github.com/jzy3d). Requires [Maven](https://howtodoinjava.com/maven/how-to-install-maven-on-windows/) to run. 
+<p><i>By Kevin Zhao</i></p>
+My own easy-to-use plotters based on [JZY3D](https://github.com/jzy3d). Requires [Maven](https://howtodoinjava.com/maven/how-to-install-maven-on-windows/) to run. 
 <br/><br/>By using my specialized plotters, you don't need to set up the environment for JZY3D. You can just create a Plotter, add your components, and invoke the <i>plot()</i> function.
 
 # Contents:
