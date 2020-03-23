@@ -1,9 +1,17 @@
 # Repository: Plotters
-Some easy-to-use plotters based on [JZY3D](https://github.com/jzy3d). Requires [Maven](https://howtodoinjava.com/maven/how-to-install-maven-on-windows/) to run.
+<p><i>By Kevin Zhao</i></p>
+My own easy-to-use plotters based on <a href="https://github.com/jzy3d">JZY3D</a>. Requires <a href = "https://howtodoinjava.com/maven/how-to-install-maven-on-windows/">Mave</a> to run. 
+<br/><br/>By using my specialized plotters, you don't need to set up the environment for JZY3D. You can just create a Plotter, add your components, and invoke the <i>plot()</i> function.
 
 # Contents:
+<<<<<<< HEAD
 1, <b>Plotter</b>Easy pipeplined plotting for parameterized surfaces, scatterpoints, and bar charts<br/>
 2, <b>Main Class</b>A Demo<br/>
+=======
+1, <b>[Surface Plotter](https://github.com/zhaokw/Plotters/blob/master/src/SurfacePlotter.java)</b><br/>To plot a parametrized surface
+<br/><br/>
+2, <b>[Scatter Plotter](https://github.com/zhaokw/Plotters/blob/master/src/ScatterPlotter.java)</b><br/>To plot a 3D scatterplot<br/>
+>>>>>>> 990b87467b199aa3d51c2ae5754687e0b517e7f4
 <br/><br/>
 # A Demo for Parameterized Surfaces, Scatterpoints, and Curves:
 This demo produces a surface plot with 6 parameterized surfaces and a scatterplot with two distinctly colored clusters.
@@ -49,6 +57,7 @@ for (int i = 0; i < n; i++) {
 plt.addScatter(curve, 1, new Color(.5f,.5f,.5f));
 ```
 <br/>
+<<<<<<< HEAD
 ![plots](https://github.com/zhaokw/Plotters/blob/master/img/Result.png)
 
 # A Demo for Bar Chart
@@ -65,3 +74,6 @@ for (int i = 1 ; i <= 3; i ++) {
 
 
 
+=======
+<img class="centered" src="https://github.com/zhaokw/Plotters/blob/master/img/Result.png"/>
+>>>>>>> 990b87467b199aa3d51c2ae5754687e0b517e7f4
