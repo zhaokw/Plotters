@@ -55,7 +55,7 @@ for (int i = 0; i < n; i++) {
 plt.addScatter(curve, 1, new Color(.5f,.5f,.5f));
 ```
 <br/>
-![plots](https://github.com/zhaokw/Plotters/blob/master/img/geoplot.png)
+<img src="https://github.com/zhaokw/Plotters/blob/master/img/geoplot.png">
 
 # A Demo for Bar Chart
 ```java
@@ -67,4 +67,4 @@ for (int i = 1 ; i <= 3; i ++) {
 }
 ```
 <br/>
-![plots](https://github.com/zhaokw/Plotters/blob/master/img/barplot.png)
+<img src="https://github.com/zhaokw/Plotters/blob/master/img/barplot.png">
