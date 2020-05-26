@@ -25,6 +25,7 @@ import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.analysis.AnalysisLauncher;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
 import org.jzy3d.colors.Color;
+import org.jzy3d.maths.Coord3d;
 import org.jzy3d.maths.parameq.ParametricAbcd;
 import org.jzy3d.maths.parameq.ParametricEquation;
 import org.jzy3d.plot3d.primitives.parameq.ParametricDrawable;
@@ -38,19 +39,18 @@ public class ParamEq2dDemo extends AbstractAnalysis {
 
 	@Override
 	public void init() throws IOException {
-		Color color = new Color(0, 64 / 255f, 84 / 255f);
-		int j = 3;
-		int k = 3;
-		ParametricEquation[] equations = new ParametricEquation[] { 
-			new ParametricAbcd(80, 1, 1, 80, j, k), new ParametricAbcd(80, 1, 80, 1, j, k), 
-			new ParametricAbcd(1, 80, 1, 80, j, k), new ParametricAbcd(1, 100, 1, 50, j, k)
+		ParametricEquation curve = new ParametricEquation() {
+			@Override
+			public Coord3d apply(double t) {
+				return new Coord3d(t,t,t);
+			}
 		};
-		// ParametricCircle
+		
+		// Graph Quality Params
+		double tMin = 0, tMax = Math.PI; int steps = 50000;
 
 		chart = AWTChartComponentFactory.chart(Quality.Advanced, getCanvasType());
-		for (ParametricEquation eq : equations)
-			chart.getScene().getGraph().add(new ParametricDrawable(eq, 0, Math.PI, 50000, Color.random()));
-		chart.getAxeLayout().setMainColor(color);
+		chart.getScene().getGraph().add(new ParametricDrawable(curve, tMin, tMax, steps, new Color(1f,0,0)));
 		chart.getView().setViewPositionMode(ViewPositionMode.TOP);
 
 	}

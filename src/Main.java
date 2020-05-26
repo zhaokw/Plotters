@@ -39,19 +39,13 @@ public class Main {
 			);
 		plt.addScatter(points1, new Color(1f, .0f, .0f)).addScatter(points2, new Color(.0f, .0f, 1f));
 		
-		// Add a parameterized curve a(t) = <10sin(50t), 10cos(50t), -200-100t> as a dense scatterplot
-		int n = 100000; Coord3d[] curve = new Coord3d[n];
-		for (int i = 0; i < n; i++) {
-			double t = ((double)i) / n;
-			curve[i] = new Coord3d(10*Math.sin(50*t), 10*Math.cos(50*t), -200-100*t);
-		}
-		plt.addScatter(curve, 1, new Color(.5f,.5f,.5f));
-		
 		Plotter barplot = new Plotter().plot();
 		// Demo for bar plot
 		for (int i = 1 ; i <= 3; i ++) {
 			barplot.addBar(new Coord3d(2+2*i, 2+2*i,-150*i), 150*i, .5f, new Color(.1f, .8f, .3f));
 			barplot.addBar(new Coord3d(2-2*i, 2-2*i,-150*i), 150*i, .5f, new Color(.1f, .8f, .3f));
 		}
+		
+		plt.addCurve();
 	}
 }

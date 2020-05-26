@@ -18,6 +18,7 @@ import org.jzy3d.plot3d.primitives.AbstractDrawable;
 import org.jzy3d.plot3d.primitives.HistogramBar;
 import org.jzy3d.plot3d.primitives.Scatter;
 import org.jzy3d.plot3d.primitives.Shape;
+import org.jzy3d.plot3d.primitives.parameq.ParametricDrawable;
 import org.jzy3d.plot3d.primitives.parameq.ParametricDrawable2;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
 
@@ -189,6 +190,18 @@ public class Plotter extends AbstractAnalysis {
 	
 	public Plotter addScatter(Coord3d[] pts, Color color) {
 		chart.getScene().add(new Scatter(pts, color, defaultSize));
+		return this;
+	}
+	
+	public Plotter addCurve() {
+		ParametricEquation curve = new ParametricEquation() {
+			@Override
+			public Coord3d apply(double t) {
+				return new Coord3d(t,t,t);
+			}
+		};
+		double tMin = 0, tMax = Math.PI; int steps = 50000;
+		chart.getScene().getGraph().add(new ParametricDrawable(curve, tMin, tMax, steps, new Color(1f,0,0)));
 		return this;
 	}
 }
