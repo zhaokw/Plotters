@@ -1,4 +1,6 @@
 import java.util.*;
+import java.util.function.Function;
+
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.analysis.AnalysisLauncher;
 import org.jzy3d.chart.Chart;
@@ -193,15 +195,11 @@ public class Plotter extends AbstractAnalysis {
 		return this;
 	}
 	
-	public Plotter addCurve() {
+	public Plotter addCurve(Function<Double, Coord3d> f, double tMin, double tMax, int stps, Color color) {
 		ParametricEquation curve = new ParametricEquation() {
-			@Override
-			public Coord3d apply(double t) {
-				return new Coord3d(t,t,t);
-			}
+			public Coord3d apply(double t) {return f.apply(t);}
 		};
-		double tMin = 0, tMax = Math.PI; int steps = 50000;
-		chart.getScene().getGraph().add(new ParametricDrawable(curve, tMin, tMax, steps, new Color(1f,0,0)));
+		chart.getScene().getGraph().add(new ParametricDrawable(curve, tMin, tMax, stps, color));
 		return this;
 	}
 }

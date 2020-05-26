@@ -1,3 +1,5 @@
+import java.util.function.Function;
+
 import org.jzy3d.colors.Color;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.maths.Range;
@@ -15,6 +17,7 @@ public class Main {
 			public double f(double x, double y) {return -Math.pow(x * x + y * y, 1.2);}
 		}));
 		plt.plot();
+		
 		// Add more surfaces
 		for (double p = .1; p <= .5; p += .1) {
 			final Double pf = new Double(p);
@@ -39,6 +42,10 @@ public class Main {
 			);
 		plt.addScatter(points1, new Color(1f, .0f, .0f)).addScatter(points2, new Color(.0f, .0f, 1f));
 		
+		// Demo for adding a hellix
+		Function<Double, Coord3d> hellix = (t) -> new Coord3d(5*Math.sin(10*t),5*Math.cos(10*t), -80*t);
+		plt.addCurve(hellix, 0, 5, 50000, new Color(1f,0,0));
+		
 		Plotter barplot = new Plotter().plot();
 		// Demo for bar plot
 		for (int i = 1 ; i <= 3; i ++) {
@@ -46,6 +53,6 @@ public class Main {
 			barplot.addBar(new Coord3d(2-2*i, 2-2*i,-150*i), 150*i, .5f, new Color(.1f, .8f, .3f));
 		}
 		
-		plt.addCurve();
+		
 	}
 }
