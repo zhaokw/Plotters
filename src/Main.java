@@ -8,13 +8,13 @@ import org.jzy3d.plot3d.rendering.canvas.Quality;
 public class Main {
 	
 	public static void main(String[] args) throws Exception {
+		
 		// Plot a surface
 		Plotter plt = new Plotter(Quality.Nicest).setSize(5);
 		plt.addSurface(plt.createSurface(new Range(-10f,10f), new Range(-10f,10f), new Mapper() {
 			public double f(double x, double y) {return -Math.pow(x * x + y * y, 1.2);}
 		}));
 		plt.plot();
-		
 		// Add more surfaces
 		for (double p = .1; p <= .5; p += .1) {
 			final Double pf = new Double(p);
@@ -22,7 +22,7 @@ public class Main {
 				public double f(double x, double y) {return -Math.pow(x * x + y * y, 1.2 - pf);}
 			}));
 		}
-
+		
 		// Add some scatterplots
 		Coord3d[] points1 = new Coord3d[100], points2 = new Coord3d[100];
 		for (int i = 0; i < points1.length; i++)
