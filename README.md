@@ -37,14 +37,9 @@ for (int i = 0; i < points2.length; i++)
 	);
 plt.addScatter(points1, new Color(1f, .0f, .0f)).addScatter(points2, new Color(.0f, .0f, 1f));
 
-// Add a parameterized curve a(t) = <10sin(50t), 10cos(50t), -200-100t> as a dense scatterplot
-// TODO: Simplify plottings for parameterized curves
-int n = 100000; Coord3d[] curve = new Coord3d[n];
-for (int i = 0; i < n; i++) {
-	double t = ((double)i) / n;
-	curve[i] = new Coord3d(10*Math.sin(50*t), 10*Math.cos(50*t), -200-100*t);
-}
-plt.addScatter(curve, 1, new Color(.5f,.5f,.5f));
+// Adding a parameterized hellix with parametrization α(t) = <5sin(10t), 5cos(10t), -80t>
+Function<Double, Coord3d> hellix = (t) -> new Coord3d(5*Math.sin(10*t),5*Math.cos(10*t), -80*t);
+plt.addCurve(hellix, 0, 5, 50000, new Color(1f,0,0));
 ```
 <br/>
 <img src="https://github.com/zhaokw/Plotters/blob/master/img/geoplot.png">
