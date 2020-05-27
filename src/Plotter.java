@@ -68,28 +68,6 @@ public class Plotter extends AbstractAnalysis {
 	
 	@Override public void init() {}
 	
-	// TODO: Parametric curves
-	private void paramDemo() {
-		final double PI_2 = 2*Math.PI; 
-        
-		Color color = new Color(0, 64/255f, 84/255f);
-        ParametricEquation2 e1 = new ParametricTorus(2, 0.5);
-        ParametricEquation curve1 = new ParametricEquation() {
-			
-			@Override
-			public Coord3d apply(double arg0) {
-				// TODO Auto-generated method stub
-				return null;
-			}
-		};
-        chart = new Chart(this.quality, getCanvasType());
-        
-        int tsteps = 200, usteps = 200, tloops = 1, uloops = 1;
-        chart.getScene().getGraph().
-        	add(new ParametricDrawable2(e1, 0, PI_2*tloops, tsteps, 0, PI_2*uloops, usteps, color));
-        chart.getAxeLayout().setMainColor(color);
-	}
-	
 	public Plotter plot() throws Exception {AnalysisLauncher.open(this); return this;}
 	
 	public Plotter setSize(int _size) {
@@ -193,6 +171,25 @@ public class Plotter extends AbstractAnalysis {
 	public Plotter addScatter(Coord3d[] pts, Color color) {
 		chart.getScene().add(new Scatter(pts, color, defaultSize));
 		return this;
+	}
+	
+	// TODO: function information about a curve parameterized by arc length
+	class ParamByArcLen {
+		public Function<Double, Coord3d> oldf, lenf;
+		public double tMin, tMax, sMin = 0, sMax = 0;
+		public Color color;
+		public int stps;
+		public ParamByArcLen(Function<Double, Coord3d> oldf, double tMin, double tMax, Color color) {
+			this.oldf = oldf; this.tMin = tMin; this.tMax = tMax; this.color = color;
+			// TODO: compute lenf, sMin, sMax
+			stps = (int) ((sMax - sMin) * 50);
+		}
+		public void drawCurve(double s) {
+			ParametricEquation curve = new ParametricEquation() {
+				public Coord3d apply(double t) {return lenf.apply(t);}
+			};
+			chart.getScene().getGraph().add(new ParametricDrawable(curve, tMin, tMax, stps, color));
+		}
 	}
 	
 	public Plotter addCurve(Function<Double, Coord3d> f, double tMin, double tMax, int stps, Color color) {
