@@ -130,6 +130,19 @@ public class Plotter extends AbstractAnalysis {
 		chart.getScene().getGraph().add(sf);
 	}
 	
+	public Plotter setXLabel(String xlabel) {
+		chart.getAxeLayout().setXAxeLabel(xlabel);
+		return this;
+	}
+	public Plotter setYLabel(String ylabel) {
+		chart.getAxeLayout().setYAxeLabel(ylabel);
+		return this;
+	}
+	public Plotter setZLabel(String zlabel) {
+		chart.getAxeLayout().setZAxeLabel(zlabel);
+		return this;
+	}
+	
 	public Plotter addBar(Coord3d center, float h, float r, Color color) {
 		color = color == null ? Color.random() : color;
 		HistogramBar b = new HistogramBar();
