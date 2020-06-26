@@ -1,9 +1,12 @@
+import java.awt.BorderLayout;
+
 import java.util.*;
 import java.util.function.Function;
 
+import javax.swing.*;
+
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.analysis.AnalysisLauncher;
-import org.jzy3d.chart.Chart;
 import org.jzy3d.chart.factories.AWTChartComponentFactory;
 import org.jzy3d.colors.Color;
 import org.jzy3d.colors.ColorMapper;
@@ -11,18 +14,14 @@ import org.jzy3d.colors.colormaps.ColorMapRainbow;
 import org.jzy3d.maths.Coord3d;
 import org.jzy3d.maths.Range;
 import org.jzy3d.maths.parameq.ParametricEquation;
-import org.jzy3d.maths.parameq.ParametricEquation2;
-import org.jzy3d.maths.parameq.ParametricTorus;
 import org.jzy3d.plot3d.builder.Builder;
 import org.jzy3d.plot3d.builder.Mapper;
 import org.jzy3d.plot3d.builder.concrete.OrthonormalGrid;
-import org.jzy3d.plot3d.primitives.AbstractDrawable;
-import org.jzy3d.plot3d.primitives.HistogramBar;
-import org.jzy3d.plot3d.primitives.Scatter;
-import org.jzy3d.plot3d.primitives.Shape;
+import org.jzy3d.plot3d.primitives.*;
 import org.jzy3d.plot3d.primitives.parameq.ParametricDrawable;
-import org.jzy3d.plot3d.primitives.parameq.ParametricDrawable2;
 import org.jzy3d.plot3d.rendering.canvas.Quality;
+
+import org.knowm.xchart.*;
 
 class Cluster {
 	public Coord3d[] pts;
@@ -55,6 +54,7 @@ class Cluster {
 public class Plotter extends AbstractAnalysis {
 	public int defaultSize = 5; // Default Size for Scatterplot
 	public final Quality quality; // Plotting Quality
+	private XYChart xychart = null;
 	
 	public Plotter() {
 		quality = Quality.Advanced;
@@ -68,7 +68,33 @@ public class Plotter extends AbstractAnalysis {
 	
 	@Override public void init() {}
 	
-	public Plotter plot() throws Exception {AnalysisLauncher.open(this); return this;}
+	public Plotter plot() throws Exception {
+		if (xychart != null) {
+			// Schedule a job for the event-dispatching thread:
+			// creating and showing this application's GUI.
+			javax.swing.SwingUtilities.invokeLater(new Runnable() {
+			  @Override
+			  public void run() {
+
+			    // Create and set up the window.
+			    JFrame frame = new JFrame("");
+			    frame.setLayout(new BorderLayout());
+			    frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+
+			    // chart
+			    JPanel chartPanel = new XChartPanel<XYChart>(xychart);
+			    frame.add(chartPanel, BorderLayout.CENTER);
+
+			    // Display the window.
+			    frame.pack();
+			    frame.setVisible(true);
+			  }
+			});
+		}
+		if (chart != null && !chart.getScene().getGraph().getAll().isEmpty())
+			AnalysisLauncher.open(this); 
+		return this;
+	}
 	
 	public Plotter setSize(int _size) {
 		this.defaultSize = _size;
@@ -130,19 +156,6 @@ public class Plotter extends AbstractAnalysis {
 		chart.getScene().getGraph().add(sf);
 	}
 	
-	public Plotter setXLabel(String xlabel) {
-		chart.getAxeLayout().setXAxeLabel(xlabel);
-		return this;
-	}
-	public Plotter setYLabel(String ylabel) {
-		chart.getAxeLayout().setYAxeLabel(ylabel);
-		return this;
-	}
-	public Plotter setZLabel(String zlabel) {
-		chart.getAxeLayout().setZAxeLabel(zlabel);
-		return this;
-	}
-	
 	public Plotter addBar(Coord3d center, float h, float r, Color color) {
 		color = color == null ? Color.random() : color;
 		HistogramBar b = new HistogramBar();
@@ -186,6 +199,19 @@ public class Plotter extends AbstractAnalysis {
 		return this;
 	}
 	
+	public Plotter setXLabel(String xlabel) {
+		chart.getAxeLayout().setXAxeLabel(xlabel);
+		return this;
+	}
+	public Plotter setYLabel(String ylabel) {
+		chart.getAxeLayout().setYAxeLabel(ylabel);
+		return this;
+	}
+	public Plotter setZLabel(String zlabel) {
+		chart.getAxeLayout().setZAxeLabel(zlabel);
+		return this;
+	}
+	
 	// TODO: function information about a curve parameterized by arc length
 	class ParamByArcLen {
 		public Function<Double, Coord3d> oldf, lenf;
@@ -205,11 +231,65 @@ public class Plotter extends AbstractAnalysis {
 		}
 	}
 	
+	public Plotter addScatterplot(double[] pts, Color color) {
+		for (int i = 0; i < pts.length - 2; i++) {
+			final int iCpy = i;
+			Function<Double, Coord3d> f = (t) -> {
+				float x, y, x1 = iCpy, y1 = (float) pts[iCpy], x2 = iCpy + 1, y2 = (float) pts[iCpy + 1];
+				float arcl = (float) Math.sqrt((x1-x2)*(x1-x2) + (y1-y2)*(y1-y2));
+				x = (float) ((x2-x1) * t); y = (float) ((y2-y1) * t);
+				return new Coord3d(x1+x/arcl, y1+y/arcl, 0);
+			};
+			addCurve(f, 0, 1, 2000, color);
+		}
+		return this;
+	}
+	
+	public Plotter addLineplot() {
+		chart.getScene().getGraph().add(new LineStrip(Arrays.asList(new Coord3d(1,2,3), new Coord3d(4,5,6))));
+		return this;
+	}
+	
 	public Plotter addCurve(Function<Double, Coord3d> f, double tMin, double tMax, int stps, Color color) {
 		ParametricEquation curve = new ParametricEquation() {
 			public Coord3d apply(double t) {return f.apply(t);}
 		};
 		chart.getScene().getGraph().add(new ParametricDrawable(curve, tMin, tMax, stps, color));
+		return this;
+	}
+	
+	public Plotter setUp2DPlot(int width, int height) {
+		xychart = new XYChartBuilder().width(width).height(height).xAxisTitle("x").yAxisTitle("y").build();
+		return this;
+	}
+	
+	public Plotter add2DLineplot(double[] xs, double[] ys, String legend) {
+		xychart.addSeries(legend == null || legend.isEmpty() ? "line" : legend, xs, ys);
+		return this;
+	}
+	
+	public Plotter xyChartDemo() {
+		// Create Chart
+		xychart = new XYChartBuilder().width(600).height(400).xAxisTitle("X").yAxisTitle("Y").build();
+
+		// Series
+	
+		xychart.addSeries("b", new double[] { 0, 2, 4, 6, 9 }, new double[] { -1, 6, 4, 0, 4 });
+		xychart.addSeries("c", new double[] { 0, 1, 3, 8, 9 }, new double[] { -2, -1, 1, 0, 1 });
+
+		return this;
+	}
+	
+	public Plotter set2DChartTitle(String title) {
+		xychart.setTitle(title);
+		return this;
+	}
+	public Plotter set2DChartXLabel(String xLabel) {
+		xychart.setXAxisTitle(xLabel);
+		return this;
+	}
+	public Plotter set2DChartYLabel(String yLabel) {
+		xychart.setYAxisTitle(yLabel);
 		return this;
 	}
 }
