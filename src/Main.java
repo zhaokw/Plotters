@@ -45,6 +45,7 @@ public class Main {
 		// Demo for adding a hellix
 		Function<Double, Coord3d> hellix = (t) -> new Coord3d(5*Math.sin(10*t),5*Math.cos(10*t), -80*t);
 		plt.addCurve(hellix, 0, 5, 50000, new Color(1f,0,0));
+		plt.setXLabel("t1").setYLabel("t1").setZLabel("t2");
 		
 		Plotter barplot = new Plotter().plot();
 		// Demo for bar plot
@@ -53,6 +54,14 @@ public class Main {
 			barplot.addBar(new Coord3d(2-2*i, 2-2*i,-150*i), 150*i, .5f, new Color(.1f, .8f, .3f));
 		}
 		
+		// Demo for 2D plot
+		double[] xs = new double[100], ys = new double[100];
+		for (int i = 1; i <=100; i++) {
+			xs[i-1] = i; ys[i-1] = 2 * i + Math.random() * 10;
+		}
+		new Plotter().setUp2DPlot(1000, 800).
+			set2DChartTitle("Fluctuations").set2DChartXLabel("x").set2DChartYLabel("y").
+			add2DLineplot(xs, ys, "y = 2x + randonUniform(10)").plot();
 		
 	}
 }

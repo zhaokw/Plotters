@@ -1,9 +1,9 @@
 import java.awt.BorderLayout;
-
 import java.util.*;
 import java.util.function.Function;
 
-import javax.swing.*;
+import javax.swing.JFrame;
+import javax.swing.JPanel;
 
 import org.jzy3d.analysis.AbstractAnalysis;
 import org.jzy3d.analysis.AnalysisLauncher;
@@ -264,7 +264,7 @@ public class Plotter extends AbstractAnalysis {
 	}
 	
 	public Plotter add2DLineplot(double[] xs, double[] ys, String legend) {
-		xychart.addSeries(legend == null || legend.isEmpty() ? "line" : legend, xs, ys);
+		xychart.addSeries(legend == null || legend.isEmpty() ? "line " + xychart.getSeriesMap().size() : legend, xs, ys);
 		return this;
 	}
 	
@@ -290,6 +290,18 @@ public class Plotter extends AbstractAnalysis {
 	}
 	public Plotter set2DChartYLabel(String yLabel) {
 		xychart.setYAxisTitle(yLabel);
+		return this;
+	}
+	public Plotter setChartXLabel(String xLabel) {
+		chart.getAxeLayout().setXAxeLabel(xLabel);
+		return this;
+	}
+	public Plotter setChartYLabel(String yLabel) {
+		chart.getAxeLayout().setXAxeLabel(yLabel);
+		return this;
+	}
+	public Plotter setChartZLabel(String zLabel) {
+		chart.getAxeLayout().setXAxeLabel(zLabel);
 		return this;
 	}
 }

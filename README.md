@@ -5,7 +5,7 @@ My own easy-to-use plotters based on <a href="https://github.com/jzy3d">JZY3D</a
 
 # A Demo for Parameterized Surfaces, Scatterpoints, and Curves:
 This demo produces a surface plot with 6 parameterized surfaces and a scatterplot with two distinctly colored clusters.
-It also includes a rudimentary parameterized curve. I will enhance the curve plotting in the future.
+It also includes a parameterized curve (helix), given the parameterized equation α(t) = <5sin(10t), 5cos(10t), -80t>.
 ```java
 // Create a plotter and add a surface
 Plotter plt = new Plotter(Quality.Nicest).setSize(5).plot();
@@ -55,3 +55,16 @@ for (int i = 1 ; i <= 3; i ++) {
 ```
 <br/>
 <img src="https://github.com/zhaokw/Plotters/blob/master/img/barplot.png">
+
+# A Demo for 2D Chart
+```java
+double[] xs = new double[100], ys = new double[100];
+for (int i = 1; i <=100; i++) {
+	xs[i-1] = i; ys[i-1] = 2 * i + Math.random() * 10;
+}
+new Plotter().setUp2DPlot(1000, 800).
+	set2DChartTitle("Fluctuations").set2DChartXLabel("x").set2DChartYLabel("y").
+	add2DLineplot(xs, ys, "y = 2x + randonUniform(10)").plot();
+```
+<br/>
+<img src="https://github.com/zhaokw/Plotters/blob/master/img/plot2D.png">
